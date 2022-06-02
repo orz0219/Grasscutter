@@ -1,5 +1,6 @@
 package emu.grasscutter.game.managers.EnergyManager;
 
+import ch.qos.logback.classic.Logger;
 import emu.grasscutter.Grasscutter;
 import emu.grasscutter.data.DataLoader;
 import emu.grasscutter.data.GameData;
@@ -45,7 +46,12 @@ import static java.util.Map.entry;
 import com.google.gson.reflect.TypeToken;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+/**
+ * 元素能量系统
+ */
 public class EnergyManager {
+
+	private final Logger logger = Grasscutter.getLogger();
 	private final Player player;
 	private final Map<EntityAvatar, Integer> avatarNormalProbabilities;
 	
@@ -266,8 +272,9 @@ public class EnergyManager {
 
 		// Roll for energy.
 		int currentProbability = this.avatarNormalProbabilities.get(avatar);
+		logger.trace("currentProbability: " + currentProbability);
 		int roll = ThreadLocalRandom.current().nextInt(0, 100);
-
+		logger.trace("roll: " + roll);
 		// If the player wins the roll, we increase the avatar's energy and reset the probability.
 		if (roll < currentProbability) {
 			avatar.addEnergy(1.0f, PropChangeReason.PROP_CHANGE_REASON_ABILITY, true);
@@ -325,6 +332,7 @@ public class EnergyManager {
 		Energy logic related to using skills.
 	**********/
 	private void handleBurstCast(Avatar avatar, int skillId) {
+		logger.trace("use energy :" + avatar.getAvatarId() + ":" + skillId);
 		// Don't do anything if energy usage is disabled.
 		if (!GAME_OPTIONS.energyUsage) {
 			return;

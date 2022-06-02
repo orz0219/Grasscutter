@@ -2,8 +2,6 @@ package emu.grasscutter.game.managers.StaminaManager;
 
 import ch.qos.logback.classic.Logger;
 import emu.grasscutter.Grasscutter;
-import emu.grasscutter.command.commands.NoStaminaCommand;
-import emu.grasscutter.data.GameData;
 import emu.grasscutter.game.avatar.Avatar;
 import emu.grasscutter.game.entity.EntityAvatar;
 import emu.grasscutter.game.entity.GameEntity;
@@ -27,6 +25,9 @@ import java.util.*;
 
 import static emu.grasscutter.Configuration.GAME_OPTIONS;
 
+/**
+ * 耐力系统
+ */
 public class StaminaManager {
 
     // TODO: Skiff state detection?
@@ -228,8 +229,8 @@ public class StaminaManager {
         float diffX = currentCoordinates.getX() - previousCoordinates.getX();
         float diffY = currentCoordinates.getY() - previousCoordinates.getY();
         float diffZ = currentCoordinates.getZ() - previousCoordinates.getZ();
-        logger.trace("isPlayerMoving: " + previousCoordinates + ", " + currentCoordinates +
-                ", " + diffX + ", " + diffY + ", " + diffZ);
+//        logger.trace("isPlayerMoving: " + previousCoordinates + ", " + currentCoordinates +
+//                ", " + diffX + ", " + diffY + ", " + diffZ);
         return Math.abs(diffX) > 0.3 || Math.abs(diffY) > 0.2 || Math.abs(diffZ) > 0.3;
     }
 
@@ -249,9 +250,9 @@ public class StaminaManager {
             }
         }
         int maxStamina = isCharacterStamina ? getMaxCharacterStamina() : getMaxVehicleStamina();
-        logger.trace((isCharacterStamina ? "C " : "V ") + currentStamina + "/" + maxStamina + "\t" + currentState + "\t" +
-                (isPlayerMoving() ? "moving" : "      ") + "\t(" + consumption.type + "," +
-                consumption.amount + ")");
+//        logger.trace((isCharacterStamina ? "C " : "V ") + currentStamina + "/" + maxStamina + "\t" + currentState + "\t" +
+//                (isPlayerMoving() ? "moving" : "      ") + "\t(" + consumption.type + "," +
+//                consumption.amount + ")");
         int newStamina = currentStamina + consumption.amount;
         if (newStamina < 0) {
             newStamina = 0;
@@ -445,8 +446,8 @@ public class StaminaManager {
             int currentVehicleStamina = getCurrentVehicleStamina();
             int maxVehicleStamina = getMaxVehicleStamina();
             if (moving || (currentCharacterStamina < maxCharacterStamina) || (currentVehicleStamina < maxVehicleStamina)) {
-                logger.trace("Player moving: " + moving + ", stamina full: " +
-                        (currentCharacterStamina >= maxCharacterStamina) + ", recalculate stamina");
+//                logger.trace("Player moving: " + moving + ", stamina full: " +
+//                        (currentCharacterStamina >= maxCharacterStamina) + ", recalculate stamina");
                 boolean isCharacterStamina = true;
                 Consumption consumption;
                 if (MotionStatesCategorized.get("CLIMB").contains(currentState)) {
